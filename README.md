@@ -1,0 +1,4 @@
+detach-rabbitmq
+============
+
+Plugin description

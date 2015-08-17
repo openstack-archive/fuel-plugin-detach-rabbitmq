@@ -1,0 +1,40 @@
+- id: rabbitmq-hiera-override
+  type: puppet
+  groups: [primary-controller, controller, standalone-rabbitmq,
+    cinder, cinder-vmware, compute, ceph-osd, zabbix-server,
+    primary-mongo, mongo]
+  requires: [globals]
+  required_for: [logging]
+  parameters:
+    puppet_manifest: "rabbitmq_hiera_override.pp"
+    puppet_modules: "/etc/puppet/modules"
+    timeout: 120
+
+##############################################
+# Deployment groups
+- id: standalone-rabbitmq
+  type: group
+  role: [standalone-rabbitmq]
+  requires: [deploy_start]
+  required_for: [deploy_end, primary-controller, controller]
+  tasks: [fuel_pkgs, hiera, globals, tools, logging, netconfig,
+    hosts, firewall, deploy_start, cluster, task-rabbitmq]
+  parameters:
+    strategy:
+      type: parallel
+
+# Deployment tasks
+- id: task-rabbitmq
+  type: puppet
+  groups: [standalone-rabbitmq]
+  requires: [hosts, firewall, globals, rabbitmq-hiera-override, cluster]
+  required_for: [deploy_end, glance, openstack-network]
+  parameters:
+    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq.pp
+    puppet_modules: /etc/puppet/modules
+    timeout: 3600
+  test_pre:
+    cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_pre.rb
+  test_post:
+    cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_post.rb
+
