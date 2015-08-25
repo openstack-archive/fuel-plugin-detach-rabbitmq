@@ -11,3 +11,6 @@ attributes:
       queue_provider: 'rabbitmq'
     label: "Additional config"
     description: "Just put here valid yaml"
+    regex:
+      source: '.+'
+      error: "This field should not be empty"
