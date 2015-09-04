@@ -18,7 +18,7 @@ if ($detach_rabbitmq_plugin) {
   $rabbit_nodes_names = keys($rabbit_address_map)
   $settings_hash = parseyaml($yaml_additional_config)
 
-  case hiera('role', 'none') {
+  case hiera_array('roles', 'none') {
     /rabbitmq/: {
       $rabbit_enabled = true
       $corosync_roles = $rabbitmq_roles 
@@ -26,11 +26,8 @@ if ($detach_rabbitmq_plugin) {
       # Set to true HA
       $corosync_nodes = $rabbit_nodes
     }
-    /controller/: {
-      $rabbit_enabled = false
-    }
     default: {
-      $rabbit_enabled = true
+      $rabbit_enabled = false
     }
   }
 
