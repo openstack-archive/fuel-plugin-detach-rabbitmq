@@ -11,17 +11,15 @@ if ($detach_rabbitmq_plugin) {
   $rabbit_nodes = get_nodes_hash_by_roles($network_metadata, $rabbitmq_roles)
 #lint:ignore:80chars
   $rabbit_address_map = get_node_to_ipaddr_map_by_network_role($rabbit_nodes, 'mgmt/messaging')
-  $yaml_additional_config = pick($detach_rabbitmq_plugin['yaml_additional_config'], {})
 #lint:endignore
   $amqp_port = hiera('amqp_port', '5673')
   $rabbit_nodes_ips = values($rabbit_address_map)
   $rabbit_nodes_names = keys($rabbit_address_map)
-  $settings_hash = parseyaml($yaml_additional_config)
 
   case hiera_array('roles', 'none') {
     /rabbitmq/: {
       $rabbit_enabled = true
-      $corosync_roles = $rabbitmq_roles 
+      $corosync_roles = $rabbitmq_roles
       $deploy_vrouter = false
       # Set to true HA
       $corosync_nodes = $rabbit_nodes
@@ -59,7 +57,7 @@ deploy_vrouter: <%= @deploy_vrouter %>
   } ->
   file { "${hiera_dir}/${plugin_yaml}":
     ensure  => file,
-    content => "${detach_rabbitmq_plugin['yaml_additional_config']}\n${calculated_content}\n",
+    content => "${calculated_content}\n",
   }
 
   package {'ruby-deep-merge':
