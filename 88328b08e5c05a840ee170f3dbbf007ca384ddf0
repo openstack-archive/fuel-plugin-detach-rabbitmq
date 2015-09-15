@@ -1,0 +1,9 @@
+Verified+2: Jenkins
+Code-Review+2: Alex Schultz <aschultz@mirantis.com>
+Workflow+1: Alex Schultz <aschultz@mirantis.com>
+Code-Review+1: Vladimir Khlyunev <vkhlyunev@mirantis.com>
+Submitted-by: Jenkins
+Submitted-at: Tue, 15 Sep 2015 13:30:38 +0000
+Reviewed-on: https://review.openstack.org/223519
+Project: stackforge/fuel-plugin-detach-rabbitmq
+Branch: refs/heads/master
