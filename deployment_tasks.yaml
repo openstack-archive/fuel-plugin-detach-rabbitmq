@@ -17,7 +17,7 @@
   requires: [deploy_start]
   required_for: [deploy_end, primary-controller, controller]
   tasks: [fuel_pkgs, hiera, globals, tools, logging, netconfig,
-    hosts, firewall, deploy_start, cluster, task-rabbitmq]
+    hosts, firewall, deploy_start, cluster, task-rabbitmq, task-murano-rabbitmq]
   parameters:
     strategy:
       type: parallel
@@ -37,3 +37,13 @@
   test_post:
     cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_post.rb
 
+- id: task-murano-rabbitmq
+  type: puppet
+  groups: [standalone-rabbitmq]
+  condition: "settings:additional_components.murano.value == true"
+  required_for: [murano]
+  requires: [task-rabbitmq]
+  parameters:
+    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/murano/rabbitmq.pp
+    puppet_modules: /etc/puppet/modules
+    timeout: 1800
