@@ -5,7 +5,7 @@ title: Separate rabbitmq from controller
 # Plugin version
 version: '1.0.1'
 # Description
-description: Creates seperate RabbitMQ role for deploying
+description: Creates separate RabbitMQ role for deploying
 # Required fuel version
 fuel_version: ['7.0']
 # Specify license of your plugin
