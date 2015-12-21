@@ -17,7 +17,7 @@
   requires: [deploy_start]
   required_for: [deploy_end, primary-controller, controller]
   tasks: [fuel_pkgs, hiera, globals, tools, logging, netconfig,
-    hosts, firewall, deploy_start, cluster, task-rabbitmq]
+    hosts, rabbitmq-firewall, deploy_start, cluster, task-rabbitmq]
   parameters:
     strategy:
       type: parallel
@@ -26,7 +26,7 @@
 - id: task-rabbitmq
   type: puppet
   groups: [standalone-rabbitmq]
-  requires: [hosts, firewall, globals, rabbitmq-hiera-override, cluster]
+  requires: [hosts, rabbitmq-firewall, globals, rabbitmq-hiera-override, cluster]
   required_for: [deploy_end]
   parameters:
     puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq.pp
@@ -37,3 +37,13 @@
   test_post:
     cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_post.rb
 
+# Deployment tasks
+- id: rabbitmq-firewall
+  type: puppet
+  groups: [standalone-rabbitmq]
+  requires: [hosts, globals, rabbitmq-hiera-override]
+  required_for: [deploy_end]
+  parameters:
+    puppet_manifest: "rabbitmq_firewall.pp"
+    puppet_modules: /etc/puppet/modules
+    timeout: 3600
