@@ -1,7 +1,7 @@
 # Plugin name
 name: detach-rabbitmq
 # Human-readable name for your plugin
-title: Separate rabbitmq from controller
+title: Separate RabbitMQ from controller
 # Plugin version
 version: '1.0.1'
 # Description
