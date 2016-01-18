@@ -1,0 +1,10 @@
+Code-Review+2: Matthew Mosesohn <mmosesohn@mirantis.com>
+Code-Review+1: Sergey Slipushenko <sslypushenko@mirantis.com>
+Code-Review+2: Bartłomiej Piotrowski <bpiotrowski@mirantis.com>
+Workflow+1: Bartłomiej Piotrowski <bpiotrowski@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 18 Jan 2016 17:32:43 +0000
+Reviewed-on: https://review.openstack.org/269198
+Project: openstack/fuel-plugin-detach-rabbitmq
+Branch: refs/heads/master
