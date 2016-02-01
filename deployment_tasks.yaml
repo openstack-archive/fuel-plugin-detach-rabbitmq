@@ -16,7 +16,7 @@
   role: [standalone-rabbitmq]
   requires: [deploy_start]
   required_for: [deploy_end, primary-controller, controller]
-  tasks: [hiera, setup_repositories, fuel_pkgs, globals, tools, logging, netconfig,
+  tasks: [hiera, fuel_pkgs, globals, tools, logging, netconfig,
     hosts, firewall, rabbitmq-firewall, deploy_start, cluster, task-rabbitmq]
   parameters:
     strategy:
