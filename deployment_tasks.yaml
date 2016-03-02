@@ -25,6 +25,7 @@
 # Deployment tasks
 - id: task-rabbitmq
   type: puppet
+  version: 2.0.0
   groups: [standalone-rabbitmq]
   requires: [hosts, firewall, rabbitmq-firewall, globals,
     rabbitmq-hiera-override, cluster]
@@ -41,6 +42,7 @@
 # Deployment tasks
 - id: rabbitmq-firewall
   type: puppet
+  version: 2.0.0
   groups: [standalone-rabbitmq]
   requires: [hosts, globals, rabbitmq-hiera-override, firewall]
   required_for: [deploy_end]
