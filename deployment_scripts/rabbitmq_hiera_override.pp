@@ -34,7 +34,7 @@ if ($detach_rabbitmq_plugin) {
 
   $calculated_content = inline_template('
 amqp_hosts: <%= @amqp_hosts %>
-rabbit_hash:
+rabbit:
   enabled: <%= @rabbit_enabled %>
 <% if @corosync_nodes -%>
 <% require "yaml" -%>
