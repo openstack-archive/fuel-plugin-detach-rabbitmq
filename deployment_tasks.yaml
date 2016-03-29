@@ -1,7 +1,34 @@
+##############################################
+# Deployment groups
+- id: primary-standalone-rabbitmq
+  type: group
+  role: [primary-standalone-rabbitmq]
+  requires: [deploy_start]
+  required_for: [deploy_end]
+  tasks: [hiera, fuel_pkgs, globals, tools, logging, netconfig,
+    hosts, firewall, rabbitmq-firewall, deploy_start, primary-cluster,
+    primary-rabbitmq]
+  parameters:
+    strategy:
+      type: parallel
+
+# Deployment groups
+- id: standalone-rabbitmq
+  type: group
+  role: [standalone-rabbitmq]
+  requires: [deploy_start]
+  required_for: [deploy_end]
+  tasks: [hiera, fuel_pkgs, globals, tools, logging, netconfig,
+    hosts, firewall, rabbitmq-firewall, deploy_start, cluster, rabbitmq]
+  parameters:
+    strategy:
+      type: parallel
+
+# Deployment tasks
 - id: rabbitmq-hiera-override
   type: puppet
-  groups: [primary-controller, controller, standalone-rabbitmq,
-    cinder, cinder-vmware, compute, ceph-osd, primary-mongo, mongo]
+  version: 2.0.0
+  role: '*'
   requires: [globals]
   required_for: [logging]
   parameters:
@@ -9,44 +36,42 @@
     puppet_modules: "/etc/puppet/modules"
     timeout: 120
 
-##############################################
-# Deployment groups
-- id: standalone-rabbitmq
-  type: group
-  role: [standalone-rabbitmq]
-  requires: [deploy_start]
-  required_for: [deploy_end, primary-controller, controller]
-  tasks: [hiera, fuel_pkgs, globals, tools, logging, netconfig,
-    hosts, firewall, rabbitmq-firewall, deploy_start, cluster, task-rabbitmq]
-  parameters:
-    strategy:
-      type: parallel
-
-# Deployment tasks
-- id: task-rabbitmq
-  type: puppet
-  version: 2.0.0
-  groups: [standalone-rabbitmq]
-  requires: [hosts, firewall, rabbitmq-firewall, globals,
-    rabbitmq-hiera-override, cluster]
-  required_for: [deploy_end]
-  parameters:
-    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq.pp
-    puppet_modules: /etc/puppet/modules
-    timeout: 3600
-  test_pre:
-    cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_pre.rb
-  test_post:
-    cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_post.rb
-
-# Deployment tasks
 - id: rabbitmq-firewall
   type: puppet
   version: 2.0.0
-  groups: [standalone-rabbitmq]
+  role: [standalone-rabbitmq]
   requires: [hosts, globals, rabbitmq-hiera-override, firewall]
-  required_for: [deploy_end]
+  required_for: [deploy_end, cluster, primary-cluster,
+    rabbitmq, primary-rabbitmq]
   parameters:
     puppet_manifest: "rabbitmq_firewall.pp"
     puppet_modules: /etc/puppet/modules
     timeout: 3600
+
+- id: rabbitmq
+  type: puppet
+  version: 2.0.0
+  groups: [standalone-rabbitmq]
+  cross-depends:
+    - name: primary-rabbitmq
+  required_for: [deploy_end, openstack-controller, primary-openstack-controller, glance]
+  requires: [netconfig, cluster]
+  parameters:
+    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq.pp
+    puppet_modules: /etc/puppet/modules
+    timeout: 3600
+  test_post:
+    cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_post.rb
+
+- id: primary-rabbitmq
+  type: puppet
+  version: 2.0.0
+  groups: [primary-standalone-rabbitmq]
+  required_for: [deploy_end, openstack-controller, primary-openstack-controller, glance]
+  requires: [netconfig, primary-cluster]
+  parameters:
+    puppet_manifest: /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq.pp
+    puppet_modules: /etc/puppet/modules
+    timeout: 3600
+  test_post:
+    cmd: ruby /etc/puppet/modules/osnailyfacter/modular/rabbitmq/rabbitmq_post.rb

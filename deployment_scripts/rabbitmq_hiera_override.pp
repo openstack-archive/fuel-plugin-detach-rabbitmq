@@ -7,7 +7,7 @@ if ($detach_rabbitmq_plugin) {
   $hiera_plugins_dir = '/etc/hiera/plugins'
   $plugin_yaml = "${hiera_plugins_dir}/${plugin_name}.yaml"
   $network_metadata = hiera_hash('network_metadata')
-  $rabbitmq_roles = [ 'standalone-rabbitmq' ]
+  $rabbitmq_roles = [ 'primary-standalone-rabbitmq', 'standalone-rabbitmq' ]
   $rabbit_nodes = get_nodes_hash_by_roles($network_metadata, $rabbitmq_roles)
 
   $rabbit_address_map = get_node_to_ipaddr_map_by_network_role(
@@ -22,7 +22,7 @@ if ($detach_rabbitmq_plugin) {
   $amqp_port = hiera('amqp_port', '5673')
 
   case hiera_array('roles', 'none') {
-    /rabbitmq/: {
+    /standalone-rabbitmq/: {
       $rabbit_enabled = true
       $corosync_roles = $rabbitmq_roles
       $deploy_vrouter = false
