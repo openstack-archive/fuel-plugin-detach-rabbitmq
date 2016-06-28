@@ -23,9 +23,9 @@ Requirements
 +----------------------------+--------------------+
 | Requirement                | Version/Comment    |
 +============================+====================+
-| Fuel                       | 8.0 release        |
+| Fuel                       | 9.x release        |
 +----------------------------+--------------------+
-| OpenStack compatibility    | Liberty            |
+| OpenStack compatibility    | Mitaka             |
 +----------------------------+--------------------+
 | Operating systems          | Ubuntu 14.04 LTS   |
 +----------------------------+--------------------+

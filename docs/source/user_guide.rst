@@ -7,7 +7,7 @@ User Guide
 #. After the plugin is installed, `create a new OpenStack environment`_.
 
 #. Open the Settings tab of the Fuel web UI and then select the Other menu.
-   Select "Separate RabbitMQ from controller" checkbox. With the radio button
+   Select "Detach RabbitMQ Plugin" checkbox. With the radio button
    below select the plugin version (multiple options are available only when
    several versions of the plugin are installed):
 
@@ -55,9 +55,24 @@ The same applies to log of Pacemaker which manages RabbitMQ. Its location is:
    - /var/log/remote/<node-name>/lrmd.log
    - /var/log/remote/<node-name>/pengine.log
 
+Upgrades
+--------
+
+It is possible to upgrade Fuel Master node from 8.0 to 9.0 using `the guide`_.
+After the upgrade, the master node will both be able to maintain existing
+Liberty OpenStack environments and deploy new Mitaka ones. If a Liberty
+environment used Detach RabbitMQ 1.0 plugin, it will be possible to continue
+using it. Also one can co-install Detach RabbitMQ 1.1 plugin onto the same
+master node to support detaching RabbitMQ for new Mitaka environments. In that
+case 'fuel plugins --list' command will show that two versions, 1.0 and 1.1,
+of the plugin are installed.
+
+Note: there is no procedure to upgrade a Liberty OpenStack environment with
+Detach RabbitMQ plugin enabled to Mitaka version.
+
 
 .. target-notes::
-.. _create a new OpenStack environment: https://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#create-a-new-openstack-environment
-.. _configuring your environment: http://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#configure-your-environment
-.. _Deploy your environment: http://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#deploy-changes
-
+.. _create a new OpenStack environment: http://docs.openstack.org/developer/fuel-docs/mitaka/userdocs/fuel-user-guide/create-environment.html
+.. _configuring your environment: http://docs.openstack.org/developer/fuel-docs/mitaka/userdocs/fuel-user-guide/configure-environment.html
+.. _Deploy your environment: http://docs.openstack.org/developer/fuel-docs/mitaka/userdocs/fuel-user-guide/deploy-environment/deploy-changes.html#deploy-changes
+.. _the guide: http://docs.openstack.org/developer/fuel-docs/mitaka/userdocs/fuel-install-guide/upgrade/upgrade-fuel.html
