@@ -14,9 +14,3 @@ Welcome to Detach RabbitMQ plugin for Fuel's documentation!
    user_guide
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
-

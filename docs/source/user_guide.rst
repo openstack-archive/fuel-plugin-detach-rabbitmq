@@ -57,7 +57,7 @@ The same applies to log of Pacemaker which manages RabbitMQ. Its location is:
 
 
 .. target-notes::
-.. _create a new OpenStack environment: https://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#create-a-new-openstack-environment
-.. _configuring your environment: http://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#configure-your-environment
-.. _Deploy your environment: http://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#deploy-changes
+.. _create a new OpenStack environment: https://docs.mirantis.com/openstack/fuel/fuel-8.0/fuel-user-guide.html#create-a-new-openstack-environment
+.. _configuring your environment: http://docs.mirantis.com/openstack/fuel/fuel-8.0/fuel-user-guide.html#configure-your-environment
+.. _Deploy your environment: http://docs.mirantis.com/openstack/fuel/fuel-8.0/fuel-user-guide.html#deploy-changes
 
