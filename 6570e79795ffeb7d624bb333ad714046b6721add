@@ -1,0 +1,8 @@
+Code-Review+2: Matthew Mosesohn <mmosesohn@mirantis.com>
+Workflow+1: Matthew Mosesohn <mmosesohn@mirantis.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 30 Jun 2016 10:29:04 +0000
+Reviewed-on: https://review.openstack.org/334991
+Project: openstack/fuel-plugin-detach-rabbitmq
+Branch: refs/heads/stable/8.0
