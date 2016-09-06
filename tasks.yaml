@@ -1,6 +1,0 @@
-- role: '*'
-  stage: pre_deployment
-  type: shell
-  parameters:
-    cmd: echo OK
-    timeout: 30
