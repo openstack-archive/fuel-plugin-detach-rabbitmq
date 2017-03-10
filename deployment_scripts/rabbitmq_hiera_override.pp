@@ -15,11 +15,27 @@ if ($detach_rabbitmq_plugin) {
     'mgmt/messaging'
   )
 
-  $rabbit_nodes_ips = values($rabbit_address_map)
-  $rabbit_nodes_names = keys($rabbit_address_map)
+  $amqp_hosts = values($rabbit_address_map)
+  $amqp_port  = hiera('amqp_port', '5673')
 
-  $amqp_hosts = $rabbit_nodes_ips
-  $amqp_port = hiera('amqp_port', '5673')
+  $rabbit_hash = hiera_hash('rabbit', {})
+
+  if !$rabbit_hash['user'] {
+    $real_rabbit_hash = merge($rabbit_hash, { 'user' => 'nova' })
+  } else {
+    $real_rabbit_hash = $rabbit_hash
+  }
+
+  $rabbit_user     = $real_rabbit_hash['user']
+  $rabbit_password = $real_rabbit_hash['password']
+
+  $transport_url   = os_transport_url({
+                        'transport'    => 'rabbit',
+                        'hosts'        => $amqp_hosts,
+                        'port'         => $amqp_port,
+                        'username'     => $rabbit_user,
+                        'password'     => $rabbit_password,
+                      })
 
   case hiera_array('roles', 'none') {
     /standalone-rabbitmq/: {
@@ -35,10 +51,11 @@ if ($detach_rabbitmq_plugin) {
   }
 
   $calculated_content = inline_template('<%
-require "yaml"
 amqp_hosts = @amqp_hosts.map {|x| x + ":" + @amqp_port}.join(",")
+require "yaml"
 data = {
   "amqp_hosts" => amqp_hosts,
+  "transport_url" => @transport_url,
   "rabbit" => {
     "enabled" => @rabbit_enabled,
   },
