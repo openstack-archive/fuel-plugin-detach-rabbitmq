@@ -1,6 +1,3 @@
-detach-rabbitmq
-===============
+# This repo has moved to OpenDev
 
-This plugin enables a user to deploy RabbitMQ on a separate host from
-controller. This plugin serves as an example of flexible granular deployment
-options for Fuel.
+It can now be found at [https://opendev.org/x/fuel-plugin-detach-rabbitmq](https://opendev.org/x/fuel-plugin-detach-rabbitmq)
